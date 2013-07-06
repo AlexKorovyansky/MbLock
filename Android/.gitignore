@@ -1,3 +1,6 @@
+# OS X
+.DS_Store
+
 # built application files
 *.apk
 *.ap_
@@ -23,7 +26,9 @@ local.properties
 proguard/
 
 # Intellij project files
-*.iml
-*.ipr
-*.iws
-.idea/
+.idea/workspace.xml
+.idea/tasks.xml
+
+# Android Studio
+build/
+.gradle
