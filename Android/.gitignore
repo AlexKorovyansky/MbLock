@@ -26,8 +26,8 @@ local.properties
 proguard/
 
 # Intellij project files
-.idea/workspace.xml
-.idea/tasks.xml
+workspace.xml
+tasks.xml
 
 # Android Studio
 build/
