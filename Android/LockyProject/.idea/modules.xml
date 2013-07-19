@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Locky/Locky.iml" filepath="$PROJECT_DIR$/Locky/Locky.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LockyProject.iml" filepath="$PROJECT_DIR$/LockyProject.iml" />
+    </modules>
+  </component>
+</project>
+

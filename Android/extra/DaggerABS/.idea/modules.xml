@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DaggerABS.iml" filepath="$PROJECT_DIR$/DaggerABS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DaggerApp.iml" filepath="$PROJECT_DIR$/DaggerApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DaggerApp/DaggerApp-DaggerApp.iml" filepath="$PROJECT_DIR$/DaggerApp/DaggerApp-DaggerApp.iml" />
+    </modules>
+  </component>
+</project>
+
