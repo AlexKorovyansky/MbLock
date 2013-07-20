@@ -1,14 +1,20 @@
-package com.alexkorovyansky.mblock;
+package com.alexkorovyansky.mblock.ui.activities;
 
 import android.os.Bundle;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
+import com.alexkorovyansky.mblock.R;
+import com.alexkorovyansky.mblock.app.base.MbLockActivity;
 
-public class LoginActivity extends SherlockFragmentActivity {
+/**
+ * LoginActivity
+ *
+ * @author Alex Korovyansky <korovyansk@gmail.com>
+ */
+public class LoginActivity extends MbLockActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
