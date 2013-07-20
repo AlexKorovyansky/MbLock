@@ -1,6 +1,18 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          android:name="com.alexkorovyansky.mblock.ui.fragments.LoginFragment"
           android:layout_width="fill_parent"
           android:layout_height="fill_parent"
-          tools:layout="@layout/fragment_login"/>
+          android:orientation="vertical"
+          tools:layout="@layout/fragment_login">
+
+    <fragment android:name="com.alexkorovyansky.mblock.ui.fragments.LoginFragment"
+              android:layout_width="fill_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1"
+              tools:layout="@layout/fragment_login"/>
+
+    <View android:layout_width="fill_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1"/>
+
+</LinearLayout>

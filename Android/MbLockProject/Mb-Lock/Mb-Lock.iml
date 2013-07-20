@@ -69,6 +69,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="support-v4-13.0.0" level="project" />
     <orderEntry type="library" name="ComProlificinteractiveActionbarsherlock431.aar" level="project" />
+    <orderEntry type="library" name="ComAndroidSupportGridlayoutV71300.aar" level="project" />
   </component>
 </module>
 
