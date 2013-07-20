@@ -7,16 +7,16 @@ import com.alexkorovyansky.mblock.R;
 import com.alexkorovyansky.mblock.app.base.MbLockActivity;
 
 /**
- * LoginActivity
+ * MainActivity
  *
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
-public class LoginActivity extends MbLockActivity {
+public class MainActivity extends MbLockActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
     }
 
 
