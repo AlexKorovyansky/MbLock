@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.alexkorovyansky.mblock.app.MbLockApplication;
+import com.squareup.otto.Bus;
+
+import javax.inject.Inject;
 
 /**
  * MbLockActivity
@@ -12,16 +16,21 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
  */
 public class MbLockActivity extends SherlockFragmentActivity {
 
+    @Inject
+    Bus bus;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onCreate");
+        ((MbLockApplication)getApplication()).inject(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onStart");
+        bus.register(this);
     }
 
     @Override
@@ -40,11 +49,16 @@ public class MbLockActivity extends SherlockFragmentActivity {
     public void onStop() {
         super.onStop();
         Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onStop");
+        bus.unregister(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onDestroy");
+    }
+
+    protected void postToBus(Object object) {
+        bus.post(object);
     }
 }
