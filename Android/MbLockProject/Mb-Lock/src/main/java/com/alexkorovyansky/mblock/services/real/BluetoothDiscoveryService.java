@@ -1,4 +1,4 @@
-package com.alexkorovyansky.mblock.services;
+package com.alexkorovyansky.mblock.services.real;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -11,8 +11,9 @@ import android.os.Looper;
 import android.os.ParcelUuid;
 import android.util.Log;
 
-import com.alexkorovyansky.mblock.classes.Callback;
 import com.alexkorovyansky.mblock.model.MbLock;
+import com.alexkorovyansky.mblock.services.Callback;
+import com.alexkorovyansky.mblock.services.DiscoveryService;
 
 import java.util.ArrayList;
 import java.util.HashSet;

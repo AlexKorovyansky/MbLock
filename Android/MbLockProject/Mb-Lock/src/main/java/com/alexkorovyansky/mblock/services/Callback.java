@@ -1,4 +1,4 @@
-package com.alexkorovyansky.mblock.classes;
+package com.alexkorovyansky.mblock.services;
 
 /**
  * Callback

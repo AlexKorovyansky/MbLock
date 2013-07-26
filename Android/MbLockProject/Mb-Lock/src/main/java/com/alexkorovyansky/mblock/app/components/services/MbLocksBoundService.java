@@ -1,16 +1,16 @@
-package com.alexkorovyansky.mblock.services;
+package com.alexkorovyansky.mblock.app.components.services;
 
 import android.os.Handler;
 
 import com.alexkorovyansky.mblock.app.base.MbLockService;
 import com.alexkorovyansky.mblock.app.events.DiscoveryFinishedEvent;
 import com.alexkorovyansky.mblock.app.events.MakeDiscoveryEvent;
-import com.alexkorovyansky.mblock.classes.Callback;
+import com.alexkorovyansky.mblock.services.Callback;
 import com.alexkorovyansky.mblock.model.MbLock;
+import com.alexkorovyansky.mblock.services.DiscoveryService;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;

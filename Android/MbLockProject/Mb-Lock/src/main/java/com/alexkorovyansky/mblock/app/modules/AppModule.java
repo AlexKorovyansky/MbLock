@@ -6,8 +6,8 @@ import android.os.Looper;
 
 import com.alexkorovyansky.mblock.app.base.MbLockApplication;
 import com.alexkorovyansky.mblock.model.User;
-import com.alexkorovyansky.mblock.services.MbLocksBoundService;
-import com.alexkorovyansky.mblock.ui.activities.MainActivity;
+import com.alexkorovyansky.mblock.app.components.services.MbLocksBoundService;
+import com.alexkorovyansky.mblock.app.components.ui.activities.MainActivity;
 import com.squareup.otto.Bus;
 
 import java.util.UUID;
