@@ -1,0 +1,8 @@
+message Response {
+    enum StatusCode {
+        OK = 1;
+        ERROR = 2;
+    }
+
+    required StatusCode status = 1;
+}
