@@ -1,0 +1,13 @@
+message Request {
+    enum Type {
+        OPEN = 1;
+    }
+
+    required Type type = 1;
+
+    optional Open open = 2;
+}
+
+message Open {
+    required string key = 1;
+}
