@@ -1,8 +1,10 @@
 package com.alexkorovyansky.mblock.services.mock;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.alexkorovyansky.mblock.classes.Callback;
 import com.alexkorovyansky.mblock.model.MbLock;
-import com.alexkorovyansky.mblock.model.User;
 import com.alexkorovyansky.mblock.services.DiscoveryService;
 import com.alexkorovyansky.mblock.utils.ThreadUtils;
 
@@ -19,11 +21,11 @@ import javax.inject.Inject;
 public class MockDiscoveryService implements DiscoveryService {
 
 
-    private final User mUser;
+    private Handler mHandler;
 
     @Inject
-    public MockDiscoveryService(User user) {
-        mUser = user;
+    public MockDiscoveryService() {
+        mHandler = new Handler(Looper.getMainLooper());
     }
 
     @Override
@@ -34,17 +36,37 @@ public class MockDiscoveryService implements DiscoveryService {
                 final Set<MbLock> result = new HashSet<MbLock>();
 
                 ThreadUtils.sleep(1000);
+
                 final MbLock users = new MbLock("My", "mac1");
-                progressCallback.onResult(users);
                 result.add(users);
 
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressCallback.onResult(users);
+                    }
+                });
+
                 ThreadUtils.sleep(1000);
+
                 final MbLock unknown = new MbLock("Unknown", "mac2");
-                progressCallback.onResult(users);
                 result.add(unknown);
 
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressCallback.onResult(unknown);
+                    }
+                });
+
                 ThreadUtils.sleep(2000);
-                resultCallback.onResult(result);
+
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        resultCallback.onResult(result);
+                    }
+                });
             }
         }).start();
     }

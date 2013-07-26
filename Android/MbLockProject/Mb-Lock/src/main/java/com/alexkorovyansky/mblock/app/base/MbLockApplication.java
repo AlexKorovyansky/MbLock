@@ -4,7 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.alexkorovyansky.mblock.app.modules.AppModule;
-import com.alexkorovyansky.mblock.app.modules.RealDiscoveryModule;
+import com.alexkorovyansky.mblock.app.modules.MockDiscoveryModule;
 
 import dagger.ObjectGraph;
 
@@ -41,6 +41,6 @@ public class MbLockApplication extends Application {
     }
 
     private void resetObjectGraph() {
-        mObjectGraph = ObjectGraph.create(new AppModule(this), new RealDiscoveryModule());
+        mObjectGraph = ObjectGraph.create(new AppModule(this), new MockDiscoveryModule());
     }
 }

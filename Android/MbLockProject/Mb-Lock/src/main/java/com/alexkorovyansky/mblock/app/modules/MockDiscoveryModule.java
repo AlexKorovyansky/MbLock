@@ -1,6 +1,5 @@
 package com.alexkorovyansky.mblock.app.modules;
 
-import com.alexkorovyansky.mblock.model.User;
 import com.alexkorovyansky.mblock.services.DiscoveryService;
 import com.alexkorovyansky.mblock.services.MbLocksBoundService;
 import com.alexkorovyansky.mblock.services.mock.MockDiscoveryService;
@@ -19,8 +18,8 @@ import dagger.Provides;
 public class MockDiscoveryModule {
 
     @Provides
-    public DiscoveryService provideDiscoveryClient(User user) {
-        return new MockDiscoveryService(user);
+    public DiscoveryService provideDiscoveryClient() {
+        return new MockDiscoveryService();
     }
 
 }
