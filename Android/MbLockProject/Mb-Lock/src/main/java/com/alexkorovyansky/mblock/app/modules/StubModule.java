@@ -4,9 +4,9 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.alexkorovyansky.mblock.model.User;
-import com.alexkorovyansky.mblock.services.MbLockBoundService;
-import com.alexkorovyansky.mblock.services.MbLockDiscoveryService;
-import com.alexkorovyansky.mblock.services.stub.MbLockStubDiscoveryService;
+import com.alexkorovyansky.mblock.services.MbLockDiscoveryClient;
+import com.alexkorovyansky.mblock.services.MbLocksService;
+import com.alexkorovyansky.mblock.services.stub.MbLockStubDiscoveryClient;
 import com.alexkorovyansky.mblock.ui.activities.MainActivity;
 import com.squareup.otto.Bus;
 
@@ -23,7 +23,7 @@ import dagger.Provides;
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
 @Module(
-        injects = { MbLockBoundService.class, MainActivity.class, MbLockStubDiscoveryService.class }
+        injects = { MbLocksService.class, MainActivity.class }
 )
 public class StubModule {
 
@@ -37,8 +37,8 @@ public class StubModule {
     }
 
     @Provides
-    public MbLockDiscoveryService provideDiscoveryService() {
-        return new MbLockStubDiscoveryService();
+    public MbLockDiscoveryClient provideDiscoveryClient(User user) {
+        return new MbLockStubDiscoveryClient(user);
     }
 
     @Provides @Singleton

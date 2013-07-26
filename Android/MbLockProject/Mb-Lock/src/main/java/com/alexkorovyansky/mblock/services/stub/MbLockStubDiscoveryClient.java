@@ -3,7 +3,7 @@ package com.alexkorovyansky.mblock.services.stub;
 import com.alexkorovyansky.mblock.classes.Callback;
 import com.alexkorovyansky.mblock.model.MbLock;
 import com.alexkorovyansky.mblock.model.User;
-import com.alexkorovyansky.mblock.services.MbLockDiscoveryService;
+import com.alexkorovyansky.mblock.services.MbLockDiscoveryClient;
 import com.alexkorovyansky.mblock.utils.ThreadUtils;
 
 import java.util.ArrayList;
@@ -13,14 +13,19 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 /**
- * MbLockStubDiscoveryService
+ * MbLockStubDiscoveryClient
  *
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
-public class MbLockStubDiscoveryService implements MbLockDiscoveryService {
+public class MbLockStubDiscoveryClient implements MbLockDiscoveryClient {
+
+
+    private final User mUser;
 
     @Inject
-    User user;
+    public MbLockStubDiscoveryClient(User user) {
+        mUser = user;
+    }
 
     @Override
     public void discover(final Callback<MbLock> progressCallback, final Callback<List<MbLock>> resultCallback) {
@@ -30,7 +35,7 @@ public class MbLockStubDiscoveryService implements MbLockDiscoveryService {
                 final List<MbLock> result = new ArrayList<MbLock>();
 
                 ThreadUtils.sleep(1000);
-                final MbLock users = new MbLock(UUID.randomUUID().toString(), user.id, user.name);
+                final MbLock users = new MbLock(UUID.randomUUID().toString(), mUser.id, mUser.name);
                 progressCallback.onResult(users);
                 result.add(users);
 

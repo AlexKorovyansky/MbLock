@@ -12,9 +12,10 @@ import com.alexkorovyansky.mblock.R;
 import com.alexkorovyansky.mblock.app.base.MbLockActivity;
 import com.alexkorovyansky.mblock.app.events.DiscoveryFinishedEvent;
 import com.alexkorovyansky.mblock.app.events.MakeDiscoveryEvent;
-import com.alexkorovyansky.mblock.services.MbLockBoundService;
+import com.alexkorovyansky.mblock.services.MbLocksService;
 import com.alexkorovyansky.mblock.ui.fragments.DiscoveryFragment;
 import com.alexkorovyansky.mblock.ui.fragments.DiscoveryNoResultsFragment;
+import com.alexkorovyansky.mblock.ui.fragments.DiscoveryResultsListFragment;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -58,7 +59,7 @@ public class MainActivity extends MbLockActivity {
     @Override
     public void onStart() {
         super.onStart();
-        bindService(new Intent(this, MbLockBoundService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        bindService(new Intent(this, MbLocksService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -69,11 +70,17 @@ public class MainActivity extends MbLockActivity {
 
     @Subscribe
     public void discoveryFinished(DiscoveryFinishedEvent discoveryFinishedEvent){
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_fragment_placeholder, new DiscoveryNoResultsFragment(), "no_results")
-                .addToBackStack("no_results")
-                .commit();
+        if (discoveryFinishedEvent.discoveredMbLocks.size() == 0 ) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_fragment_placeholder, new DiscoveryNoResultsFragment(), "no_results")
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_fragment_placeholder, DiscoveryResultsListFragment.newInstance(discoveryFinishedEvent.discoveredMbLocks), "results")
+                    .commit();
+        }
     }
 
 }

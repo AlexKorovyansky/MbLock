@@ -1,10 +1,8 @@
 package com.alexkorovyansky.mblock.app.base;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.alexkorovyansky.mblock.app.MbLockApplication;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
@@ -22,40 +20,52 @@ public class MbLockActivity extends SherlockFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onCreate");
+        MbLockApplication.logLifeCycle(this, "onCreate " + (savedInstanceState == null ? "new" : "restored") + " " + getIntent());
         ((MbLockApplication)getApplication()).inject(this);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onStart");
+        MbLockApplication.logLifeCycle(this, "onStart");
         bus.register(this);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        MbLockApplication.logLifeCycle(this, "onRestoreInstanceState");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onResume");
+        MbLockApplication.logLifeCycle(this, "onResume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onPause");
+        MbLockApplication.logLifeCycle(this, "onPause");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        MbLockApplication.logLifeCycle(this, "onSaveInstanceState");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onStop");
+        MbLockApplication.logLifeCycle(this, "onStop");
         bus.unregister(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.v(MbLockTags.TAG_LIFE_CYCLE_EVENTS, getClass().getSimpleName() + " onDestroy");
+        MbLockApplication.logLifeCycle(this, "onDestroy");
     }
 
     protected void postToBus(Object object) {

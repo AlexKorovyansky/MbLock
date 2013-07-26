@@ -1,6 +1,7 @@
-package com.alexkorovyansky.mblock.app;
+package com.alexkorovyansky.mblock.app.base;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.alexkorovyansky.mblock.app.modules.StubModule;
 
@@ -13,11 +14,14 @@ import dagger.ObjectGraph;
  */
 public class MbLockApplication extends Application {
 
+    /*package*/ static final String TAG_LIFE_CYCLE = MbLockApplication.class.getSimpleName() + ".lifecycle";
+
     private ObjectGraph mObjectGraph;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        MbLockApplication.logLifeCycle(this, "---onCreate---");
     }
 
     public void inject(Object component) {
@@ -29,6 +33,10 @@ public class MbLockApplication extends Application {
             resetObjectGraph();
         }
         return mObjectGraph;
+    }
+
+    public static void logLifeCycle(Object instance, String method) {
+        Log.v(TAG_LIFE_CYCLE, instance.getClass().getSimpleName() + " " + method);
     }
 
     private void resetObjectGraph() {

@@ -1,12 +1,12 @@
 package com.alexkorovyansky.mblock.services;
 
-import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 
-import com.alexkorovyansky.mblock.app.MbLockApplication;
+import com.alexkorovyansky.mblock.app.base.MbLockApplication;
+import com.alexkorovyansky.mblock.app.base.MbLockService;
 import com.alexkorovyansky.mblock.app.events.DiscoveryFinishedEvent;
 import com.alexkorovyansky.mblock.app.events.MakeDiscoveryEvent;
 import com.alexkorovyansky.mblock.classes.Callback;
@@ -19,39 +19,20 @@ import java.util.List;
 import javax.inject.Inject;
 
 /**
- * MbLockBoundService
+ * MbLockService
  *
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
-public class MbLockBoundService extends Service {
+public class MbLocksService extends MbLockService{
 
     @Inject
-    MbLockDiscoveryService mbLockDiscoveryService;
+    MbLockDiscoveryClient mbLockDiscoveryService;
 
     @Inject
     Handler handler;
 
     @Inject
     Bus bus;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        ((MbLockApplication)getApplication()).inject(this);
-        ((MbLockApplication)getApplication()).inject(mbLockDiscoveryService);
-        bus.register(this);
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return new Binder();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        bus.unregister(this);
-    }
 
     @Subscribe
     public void makeDiscovery(MakeDiscoveryEvent makeDiscoveryEvent) {

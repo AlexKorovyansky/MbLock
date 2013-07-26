@@ -3,14 +3,14 @@ package com.alexkorovyansky.mblock.app.base;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockListFragment;
 
 /**
  * MbLockFragment
  *
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
-public class MbLockFragment extends SherlockFragment {
+public class MbLockListFragment extends SherlockListFragment {
 
     @Override
     public void onAttach(Activity activity) {
