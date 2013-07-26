@@ -1,4 +1,4 @@
-package com.alexkorovyansky.mblock.ui.activities;
+package com.alexkorovyansky.mblock.app.components.ui.activities;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,10 +12,10 @@ import com.alexkorovyansky.mblock.R;
 import com.alexkorovyansky.mblock.app.base.MbLockActivity;
 import com.alexkorovyansky.mblock.app.events.DiscoveryFinishedEvent;
 import com.alexkorovyansky.mblock.app.events.MakeDiscoveryEvent;
-import com.alexkorovyansky.mblock.services.MbLocksBoundService;
-import com.alexkorovyansky.mblock.ui.fragments.DiscoveryFragment;
-import com.alexkorovyansky.mblock.ui.fragments.DiscoveryNoResultsFragment;
-import com.alexkorovyansky.mblock.ui.fragments.DiscoveryResultsListFragment;
+import com.alexkorovyansky.mblock.app.components.services.MbLocksBoundService;
+import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryFragment;
+import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryNoResultsFragment;
+import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryResultsListFragment;
 import com.squareup.otto.Subscribe;
 
 /**

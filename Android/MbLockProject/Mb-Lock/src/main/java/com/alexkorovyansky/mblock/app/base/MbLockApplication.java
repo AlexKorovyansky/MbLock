@@ -4,7 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.alexkorovyansky.mblock.app.modules.AppModule;
-import com.alexkorovyansky.mblock.app.modules.MockDiscoveryModule;
+import com.alexkorovyansky.mblock.app.modules.mock.MockDiscoveryModule;
 
 import dagger.ObjectGraph;
 

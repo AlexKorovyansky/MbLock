@@ -1,4 +1,4 @@
-package com.alexkorovyansky.mblock.ui.fragments;
+package com.alexkorovyansky.mblock.app.components.ui.fragments;
 
 import android.os.Bundle;
 import android.os.Parcelable;

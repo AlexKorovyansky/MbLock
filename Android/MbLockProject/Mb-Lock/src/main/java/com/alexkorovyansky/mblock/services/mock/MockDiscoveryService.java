@@ -3,7 +3,7 @@ package com.alexkorovyansky.mblock.services.mock;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.alexkorovyansky.mblock.classes.Callback;
+import com.alexkorovyansky.mblock.services.Callback;
 import com.alexkorovyansky.mblock.model.MbLock;
 import com.alexkorovyansky.mblock.services.DiscoveryService;
 import com.alexkorovyansky.mblock.utils.ThreadUtils;

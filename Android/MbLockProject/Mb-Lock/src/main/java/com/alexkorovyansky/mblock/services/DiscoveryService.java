@@ -1,6 +1,5 @@
 package com.alexkorovyansky.mblock.services;
 
-import com.alexkorovyansky.mblock.classes.Callback;
 import com.alexkorovyansky.mblock.model.MbLock;
 
 import java.util.Set;

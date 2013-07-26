@@ -1,7 +1,7 @@
-package com.alexkorovyansky.mblock.app.modules;
+package com.alexkorovyansky.mblock.app.modules.mock;
 
 import com.alexkorovyansky.mblock.services.DiscoveryService;
-import com.alexkorovyansky.mblock.services.MbLocksBoundService;
+import com.alexkorovyansky.mblock.app.components.services.MbLocksBoundService;
 import com.alexkorovyansky.mblock.services.mock.MockDiscoveryService;
 
 import dagger.Module;
