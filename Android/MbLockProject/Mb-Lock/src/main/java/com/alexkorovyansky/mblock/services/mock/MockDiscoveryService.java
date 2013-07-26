@@ -1,9 +1,9 @@
-package com.alexkorovyansky.mblock.services.stub;
+package com.alexkorovyansky.mblock.services.mock;
 
 import com.alexkorovyansky.mblock.classes.Callback;
 import com.alexkorovyansky.mblock.model.MbLock;
 import com.alexkorovyansky.mblock.model.User;
-import com.alexkorovyansky.mblock.services.MbLockDiscoveryClient;
+import com.alexkorovyansky.mblock.services.DiscoveryService;
 import com.alexkorovyansky.mblock.utils.ThreadUtils;
 
 import java.util.ArrayList;
@@ -13,17 +13,17 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 /**
- * MbLockStubDiscoveryClient
+ * MockDiscoveryService
  *
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
-public class MbLockStubDiscoveryClient implements MbLockDiscoveryClient {
+public class MockDiscoveryService implements DiscoveryService {
 
 
     private final User mUser;
 
     @Inject
-    public MbLockStubDiscoveryClient(User user) {
+    public MockDiscoveryService(User user) {
         mUser = user;
     }
 
@@ -35,12 +35,12 @@ public class MbLockStubDiscoveryClient implements MbLockDiscoveryClient {
                 final List<MbLock> result = new ArrayList<MbLock>();
 
                 ThreadUtils.sleep(1000);
-                final MbLock users = new MbLock(UUID.randomUUID().toString(), mUser.id, mUser.name);
+                final MbLock users = new MbLock(UUID.randomUUID().toString(), "My", mUser.id, mUser.name);
                 progressCallback.onResult(users);
                 result.add(users);
 
                 ThreadUtils.sleep(1000);
-                final MbLock unknown = new MbLock(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Unknown Person");
+                final MbLock unknown = new MbLock(UUID.randomUUID().toString(), "Unknown", UUID.randomUUID().toString(), "Unknown Person");
                 progressCallback.onResult(users);
                 result.add(unknown);
 
@@ -48,5 +48,10 @@ public class MbLockStubDiscoveryClient implements MbLockDiscoveryClient {
                 resultCallback.onResult(result);
             }
         }).start();
+    }
+
+    @Override
+    public void cancel() {
+
     }
 }

@@ -1,11 +1,7 @@
 package com.alexkorovyansky.mblock.services;
 
-import android.content.Intent;
-import android.os.Binder;
 import android.os.Handler;
-import android.os.IBinder;
 
-import com.alexkorovyansky.mblock.app.base.MbLockApplication;
 import com.alexkorovyansky.mblock.app.base.MbLockService;
 import com.alexkorovyansky.mblock.app.events.DiscoveryFinishedEvent;
 import com.alexkorovyansky.mblock.app.events.MakeDiscoveryEvent;
@@ -23,10 +19,10 @@ import javax.inject.Inject;
  *
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
-public class MbLocksService extends MbLockService{
+public class MbLocksBoundService extends MbLockService{
 
     @Inject
-    MbLockDiscoveryClient mbLockDiscoveryService;
+    DiscoveryService mbLockDiscoveryService;
 
     @Inject
     Handler handler;
@@ -50,7 +46,7 @@ public class MbLocksService extends MbLockService{
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            bus.post(new DiscoveryFinishedEvent(mbLocks, null));
+                            postToBus(new DiscoveryFinishedEvent(mbLocks, null));
                         }
                     });
                 }
@@ -60,5 +56,11 @@ public class MbLocksService extends MbLockService{
                 }
             }
         );
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mbLockDiscoveryService.cancel();
     }
 }

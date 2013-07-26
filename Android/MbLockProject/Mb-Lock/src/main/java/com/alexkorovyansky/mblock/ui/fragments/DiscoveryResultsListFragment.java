@@ -38,6 +38,7 @@ public class DiscoveryResultsListFragment extends MbLockListFragment{
         super.onActivityCreated(savedInstanceState);
         final ArrayAdapter<MbLock> adapter = new ArrayAdapter<MbLock>(getActivity(),
                 android.R.layout.simple_list_item_1, mItems);
+
         setListAdapter(adapter);
     }
 

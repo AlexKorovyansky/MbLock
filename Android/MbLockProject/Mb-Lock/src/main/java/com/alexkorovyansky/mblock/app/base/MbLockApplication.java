@@ -3,7 +3,8 @@ package com.alexkorovyansky.mblock.app.base;
 import android.app.Application;
 import android.util.Log;
 
-import com.alexkorovyansky.mblock.app.modules.StubModule;
+import com.alexkorovyansky.mblock.app.modules.AppModule;
+import com.alexkorovyansky.mblock.app.modules.RealDiscoveryModule;
 
 import dagger.ObjectGraph;
 
@@ -40,6 +41,6 @@ public class MbLockApplication extends Application {
     }
 
     private void resetObjectGraph() {
-        mObjectGraph = ObjectGraph.create(new StubModule());
+        mObjectGraph = ObjectGraph.create(new AppModule(this), new RealDiscoveryModule());
     }
 }

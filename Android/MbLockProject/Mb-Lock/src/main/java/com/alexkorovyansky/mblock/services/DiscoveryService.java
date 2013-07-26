@@ -6,10 +6,11 @@ import com.alexkorovyansky.mblock.model.MbLock;
 import java.util.List;
 
 /**
- * MbLockDiscoveryClient
+ * DiscoveryService
  *
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
-public interface MbLockDiscoveryClient {
+public interface DiscoveryService {
     public void discover(Callback<MbLock> progressCallback, Callback<List<MbLock>> resultCallback);
+    public void cancel();
 }

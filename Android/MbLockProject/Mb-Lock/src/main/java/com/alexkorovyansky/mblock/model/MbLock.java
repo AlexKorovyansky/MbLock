@@ -10,11 +10,13 @@ import android.os.Parcelable;
  */
 public class MbLock implements Parcelable{
     public String id;
+    public String name;
     public String majorId;
     public String majorName;
 
-    public MbLock(String id, String majorId, String majorName) {
+    public MbLock(String id, String name, String majorId, String majorName) {
         this.id = id;
+        this.name = name;
         this.majorId = majorId;
         this.majorName = majorName;
     }
@@ -22,6 +24,7 @@ public class MbLock implements Parcelable{
     // Parcelling part
     public MbLock(Parcel in){
         this.id = in.readString();
+        this.name = in.readString();
         this.majorId = in.readString();
         this.majorName = in.readString();
     }
@@ -30,6 +33,7 @@ public class MbLock implements Parcelable{
     public String toString() {
         return "MbLock{" +
                 "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", majorId='" + majorId + '\'' +
                 ", majorName='" + majorName + '\'' +
                 '}';
@@ -43,6 +47,7 @@ public class MbLock implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
+        dest.writeString(name);
         dest.writeString(majorId);
         dest.writeString(majorName);
     }

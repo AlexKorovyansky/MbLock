@@ -52,4 +52,8 @@ public class MbLockService extends Service {
         bus.unregister(this);
     }
 
+    protected void postToBus(Object event) {
+        bus.post(event);
+    }
+
 }

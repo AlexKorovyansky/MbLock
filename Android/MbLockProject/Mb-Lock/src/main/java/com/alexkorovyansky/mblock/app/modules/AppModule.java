@@ -1,12 +1,12 @@
 package com.alexkorovyansky.mblock.app.modules;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.alexkorovyansky.mblock.app.base.MbLockApplication;
 import com.alexkorovyansky.mblock.model.User;
-import com.alexkorovyansky.mblock.services.MbLockDiscoveryClient;
-import com.alexkorovyansky.mblock.services.MbLocksService;
-import com.alexkorovyansky.mblock.services.stub.MbLockStubDiscoveryClient;
+import com.alexkorovyansky.mblock.services.MbLocksBoundService;
 import com.alexkorovyansky.mblock.ui.activities.MainActivity;
 import com.squareup.otto.Bus;
 
@@ -18,14 +18,25 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * StubModule
+ * MockDiscoveryModule
  *
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
 @Module(
-        injects = { MbLocksService.class, MainActivity.class }
+        injects = { MbLocksBoundService.class, MainActivity.class }
 )
-public class StubModule {
+public class AppModule {
+
+    private MbLockApplication app;
+
+    public AppModule(MbLockApplication app) {
+        this.app = app;
+    }
+
+    @Provides
+    public Context provideContext() {
+        return app;
+    }
 
     @Provides
     public User provideUser() {
@@ -34,11 +45,6 @@ public class StubModule {
         user.name = "Alex Korovyansky";
         user.email = "korovyansk@gmail.com";
         return user;
-    }
-
-    @Provides
-    public MbLockDiscoveryClient provideDiscoveryClient(User user) {
-        return new MbLockStubDiscoveryClient(user);
     }
 
     @Provides @Singleton
