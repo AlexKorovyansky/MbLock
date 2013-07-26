@@ -9,33 +9,39 @@ import android.os.Parcelable;
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
 public class MbLock implements Parcelable{
-    public String id;
     public String name;
-    public String majorId;
-    public String majorName;
+    public String macAddress;
 
-    public MbLock(String id, String name, String majorId, String majorName) {
-        this.id = id;
+    public MbLock(String name, String macAddress) {
         this.name = name;
-        this.majorId = majorId;
-        this.majorName = majorName;
+        this.macAddress = macAddress;
     }
 
     // Parcelling part
     public MbLock(Parcel in){
-        this.id = in.readString();
         this.name = in.readString();
-        this.majorId = in.readString();
-        this.majorName = in.readString();
+        this.macAddress = in.readString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof MbLock) {
+            MbLock mbLock = (MbLock) o;
+            return macAddress.equals(mbLock.macAddress);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return macAddress.hashCode();
     }
 
     @Override
     public String toString() {
         return "MbLock{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", majorId='" + majorId + '\'' +
-                ", majorName='" + majorName + '\'' +
+                "name='" + name + '\'' +
+                ", macAddress='" + macAddress + '\'' +
                 '}';
     }
 
@@ -46,11 +52,10 @@ public class MbLock implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
         dest.writeString(name);
-        dest.writeString(majorId);
-        dest.writeString(majorName);
+        dest.writeString(macAddress);
     }
+
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
 
         public MbLock createFromParcel(Parcel in) {

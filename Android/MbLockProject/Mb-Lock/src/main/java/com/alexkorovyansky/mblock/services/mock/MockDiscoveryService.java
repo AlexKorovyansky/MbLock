@@ -6,9 +6,8 @@ import com.alexkorovyansky.mblock.model.User;
 import com.alexkorovyansky.mblock.services.DiscoveryService;
 import com.alexkorovyansky.mblock.utils.ThreadUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -28,19 +27,19 @@ public class MockDiscoveryService implements DiscoveryService {
     }
 
     @Override
-    public void discover(final Callback<MbLock> progressCallback, final Callback<List<MbLock>> resultCallback) {
+    public void discover(final Callback<MbLock> progressCallback, final Callback<Set<MbLock>> resultCallback) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final List<MbLock> result = new ArrayList<MbLock>();
+                final Set<MbLock> result = new HashSet<MbLock>();
 
                 ThreadUtils.sleep(1000);
-                final MbLock users = new MbLock(UUID.randomUUID().toString(), "My", mUser.id, mUser.name);
+                final MbLock users = new MbLock("My", "mac1");
                 progressCallback.onResult(users);
                 result.add(users);
 
                 ThreadUtils.sleep(1000);
-                final MbLock unknown = new MbLock(UUID.randomUUID().toString(), "Unknown", UUID.randomUUID().toString(), "Unknown Person");
+                final MbLock unknown = new MbLock("Unknown", "mac2");
                 progressCallback.onResult(users);
                 result.add(unknown);
 

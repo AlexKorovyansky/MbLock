@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.ParcelUuid;
 import android.util.Log;
 
@@ -13,7 +15,10 @@ import com.alexkorovyansky.mblock.classes.Callback;
 import com.alexkorovyansky.mblock.model.MbLock;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * BluetoothDiscoveryService
@@ -24,14 +29,13 @@ public class BluetoothDiscoveryService implements DiscoveryService {
 
     public static final String TAG = BluetoothDiscoveryService.class.getSimpleName();
 
-    private List<BluetoothDevice> mDiscoveredDevices = new ArrayList<BluetoothDevice>();
+    private UUID magicUUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     private final BroadcastReceiver mDiscoveryReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             // When discovery finds a device
             if (BluetoothAdapter.ACTION_DISCOVERY_STARTED.equals(action)) {
-                mDiscoveredDevices.clear();
                 Log.v(TAG, "--discovery started");
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
@@ -51,15 +55,24 @@ public class BluetoothDiscoveryService implements DiscoveryService {
                 if (device.getUuids() != null && device.getUuids().length > 0) {
                     for (ParcelUuid parcelUuid: device.getUuids()) {
                         Log.v(TAG, parcelUuid.getUuid().toString());
+                        if (magicUUID.equals(parcelUuid.getUuid())) {
+                            mDiscoveredLocks.add(new MbLock(device.getName(), device.getAddress()));
+                        }
                     }
                 } else {
                     Log.v(TAG, "empty");
                 }
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                for (BluetoothDevice discoveredDevice: mDiscoveredDevices) {
-                    discoveredDevice.fetchUuidsWithSdp();
+                if (mDiscoveredDevices.size() > 0) {
+                    mHandler.postDelayed(mFetchUuidTimeoutRunnable, 10000);
+                    for (BluetoothDevice discoveredDevice: mDiscoveredDevices) {
+                        discoveredDevice.fetchUuidsWithSdp();
+                    }
+                } else {
+                    mDiscoveryRunning = false;
+                    mContext.unregisterReceiver(mDiscoveryReceiver);
+                    mResultCallback.onResult(new HashSet<MbLock>());
                 }
-                mDiscoveredDevices.clear();
                 Log.v(TAG, "--discovery finished");
             }
         }
@@ -67,20 +80,35 @@ public class BluetoothDiscoveryService implements DiscoveryService {
 
     private BluetoothAdapter mBluetoothAdapter;
     private Context mContext;
-    private List<MbLock> mDiscoveredLocks;
-    private Callback<List<MbLock>> mResultCallback;
+    private List<BluetoothDevice> mDiscoveredDevices = new ArrayList<BluetoothDevice>();
+    private Set<MbLock> mDiscoveredLocks;
+    private Callback<Set<MbLock>> mResultCallback;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private boolean mDiscoveryRunning;
+
+    private Runnable mFetchUuidTimeoutRunnable = new Runnable() {
+        @Override
+        public void run() {
+            timeoutFetchUuid();
+        }
+    };
 
     public BluetoothDiscoveryService(Context context) {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         mContext = context;
-        mDiscoveredLocks = new ArrayList<MbLock>();
+        mDiscoveredLocks = new HashSet<MbLock>();
+        mDiscoveryRunning = false;
     }
 
     @Override
-    public void discover(Callback<MbLock> progressCallback, Callback<List<MbLock>> resultCallback) {
-        if (mBluetoothAdapter.isDiscovering()) {
+    public void discover(Callback<MbLock> progressCallback, Callback<Set<MbLock>> resultCallback) {
+        if (mDiscoveryRunning) {
             throw new RuntimeException("cannot start discovery, because discovery is already running");
         }
+
+        mDiscoveryRunning = true;
+
         mResultCallback = resultCallback;
 
         final IntentFilter intentFilter = new IntentFilter();
@@ -89,22 +117,26 @@ public class BluetoothDiscoveryService implements DiscoveryService {
         intentFilter.addAction(BluetoothDevice.ACTION_UUID);
         intentFilter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
 
+        mDiscoveredDevices.clear();
+        mDiscoveredLocks.clear();
+
         mContext.registerReceiver(mDiscoveryReceiver, intentFilter);
         mBluetoothAdapter.startDiscovery();
     }
 
     @Override
     public void cancel() {
-        if(mBluetoothAdapter.isDiscovering()) {
+        if (mDiscoveryRunning) {
             mBluetoothAdapter.cancelDiscovery();
             mContext.unregisterReceiver(mDiscoveryReceiver);
         }
+        mHandler.removeCallbacks(mFetchUuidTimeoutRunnable);
     }
 
-    private void stopDiscovery() {
-        if (mBluetoothAdapter.isDiscovering()) {
-            mBluetoothAdapter.cancelDiscovery();
-            mContext.unregisterReceiver(mDiscoveryReceiver);
-        }
+    private void timeoutFetchUuid(){
+        mDiscoveryRunning = false;
+        mContext.unregisterReceiver(mDiscoveryReceiver);
+        mDiscoveryRunning = false;
+        mResultCallback.onResult(mDiscoveredLocks);
     }
 }

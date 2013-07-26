@@ -11,6 +11,7 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -40,9 +41,9 @@ public class MbLocksBoundService extends MbLockService{
                 @Override
                 public void onError(Exception e) {
                 }
-            }, new Callback<List<MbLock>>() {
+            }, new Callback<Set<MbLock>>() {
                 @Override
-                public void onResult(final List<MbLock> mbLocks) {
+                public void onResult(final Set<MbLock> mbLocks) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {

@@ -3,7 +3,7 @@ package com.alexkorovyansky.mblock.services;
 import com.alexkorovyansky.mblock.classes.Callback;
 import com.alexkorovyansky.mblock.model.MbLock;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * DiscoveryService
@@ -11,6 +11,6 @@ import java.util.List;
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
 public interface DiscoveryService {
-    public void discover(Callback<MbLock> progressCallback, Callback<List<MbLock>> resultCallback);
+    public void discover(Callback<MbLock> progressCallback, Callback<Set<MbLock>> resultCallback);
     public void cancel();
 }

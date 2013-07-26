@@ -2,7 +2,7 @@ package com.alexkorovyansky.mblock.app.events;
 
 import com.alexkorovyansky.mblock.model.MbLock;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * MakeDiscoveryEvent
@@ -10,10 +10,10 @@ import java.util.List;
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
 public class DiscoveryFinishedEvent {
-    public List<MbLock> discoveredMbLocks;
+    public Set<MbLock> discoveredMbLocks;
     public Exception exception;
 
-    public DiscoveryFinishedEvent(List<MbLock> discoveredMbLocks, Exception exception) {
+    public DiscoveryFinishedEvent(Set<MbLock> discoveredMbLocks, Exception exception) {
         this.discoveredMbLocks = discoveredMbLocks;
         this.exception = exception;
     }

@@ -8,7 +8,7 @@ import com.alexkorovyansky.mblock.app.base.MbLockListFragment;
 import com.alexkorovyansky.mblock.model.MbLock;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 /**
  * DiscoveryFragment
@@ -19,7 +19,7 @@ public class DiscoveryResultsListFragment extends MbLockListFragment{
 
     private ArrayList<MbLock> mItems;
 
-    public static DiscoveryResultsListFragment newInstance(List<MbLock> results) {
+    public static DiscoveryResultsListFragment newInstance(Set<MbLock> results) {
         final DiscoveryResultsListFragment f = new DiscoveryResultsListFragment();
         final Bundle arguments = new Bundle();
         arguments.putParcelableArrayList("items", new ArrayList<Parcelable>(results));
