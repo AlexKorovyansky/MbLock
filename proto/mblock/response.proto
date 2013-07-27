@@ -1,3 +1,8 @@
+package mblock;
+
+option java_package = "com.alexkorovyansky.mblock.proto";
+option java_outer_classname = "Response1";
+
 message Response {
     enum StatusCode {
         OK = 1;
