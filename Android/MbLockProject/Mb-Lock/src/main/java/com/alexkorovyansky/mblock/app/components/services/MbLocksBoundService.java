@@ -59,6 +59,10 @@ public class MbLocksBoundService extends MbLockService{
         );
     }
 
+    public void getInfo() {
+
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

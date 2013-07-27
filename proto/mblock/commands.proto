@@ -1,6 +1,7 @@
 package mblock;
 
 option java_package = "com.alexkorovyansky.mblock.proto";
+option java_outer_classname = "MbLockCommands";
 
 message Request {
     enum Type {
@@ -14,4 +15,13 @@ message Request {
 
 message Open {
     required string key = 1;
+}
+
+message Response {
+    enum StatusCode {
+        OK = 1;
+        ERROR = 2;
+    }
+
+    required StatusCode status = 1;
 }
