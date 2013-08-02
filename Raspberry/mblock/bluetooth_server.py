@@ -52,10 +52,10 @@ class clientThread(threading.Thread):
 
 while True:
     client_sock, client_info = server_socket.accept()
-    print client_info, ": connection accepted"
-    echo = clientThread(client_sock, client_info)
-    echo.setDaemon(True)
-    echo.start()
+    log.info("%s : connection accepted", client_info)
+    client = clientThread(client_sock, client_info)
+    client.setDaemon(True)
+    client.start()
     if TEST:
         time.sleep(360)
 
