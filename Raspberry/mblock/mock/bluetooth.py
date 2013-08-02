@@ -1,3 +1,5 @@
+from Raspberry.mblock.mock import client
+
 RFCOMM = 3
 PORT_ANY = 0
 SERIAL_PORT_CLASS = "1101"
@@ -10,18 +12,20 @@ class BluetoothSocket:
             raise ValueError("invalid protocol")
 
         self.proto = proto
+        self.received_data = []
+
         self.bound = False
         self.listening = False
+        self.connected = False
 
         self.bind = self.rfcomm_bind
         self.getsockname = self.rfcomm_getsockname
         self.listen = self.rfcomm_listen
         self.accept = self.rfcomm_accept
-        self.connected = False
+        self.recv = self.rfcomm_recv
+        self.close = self.rfcomm_close
         # self.connect         = self.rfcomm_connect
         # self.send            = self.rfcomm_send
-        # self.recv            = self.rfcomm_recv
-        # self.close           = self.rfcomm_close
         # self.setblocking     = self.rfcomm_setblocking
         # self.settimeout      = self.rfcomm_settimeout
         # self.gettimeout      = self.rfcomm_gettimeout
@@ -53,12 +57,13 @@ class BluetoothSocket:
         print "***MOCK:BLUETOOTH*** Start listening"
 
     def rfcomm_accept(self):
-        if self.connected:
-            raise BluetoothError("already connected")
+        # if self.connected:
+        #     raise BluetoothError("already connected")
 
         while self.listening and not self.connected:
             print ("***MOCK:BLUETOOTH*** Waiting for connection")
-            raw_input("***MOCK:BLUETOOTH*** |Phone| Press [ANY_KEY] for connect...")
+
+            client.wait_connection()
             self.connected = True
 
         if self.connected:
@@ -67,11 +72,26 @@ class BluetoothSocket:
 
             clientsock = BluetoothSocket(RFCOMM)
 
-            # now create new C++ objects
-            self.__rfcomm_make_cobjects()
-
             return clientsock, (client_bdaddr, client_port)
 
+    def rfcomm_recv(self, numbytes):
+
+        while not self.received_data:
+            self.received_data = client.send_data()
+
+        if self.received_data:
+            data = self.received_data.pop(0)
+            if len(data) > numbytes:
+                self.received_data.insert(0, data[numbytes:])
+                return data[:numbytes]
+            else:
+                return data
+
+    def rfcomm_close(self):
+        self.bound = False
+        self.listening = False
+        self.connected = False
+        print "***MOCK:BLUETOOTH*** Bluetooth socket close"
 
 
 def advertise_service( sock, name, service_id = "", service_classes = [], \
