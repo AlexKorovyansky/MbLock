@@ -6,14 +6,20 @@ option java_outer_classname = "MbLockCommands";
 message Request {
     enum Type {
         OPEN = 1;
+        CLOSE = 2;
     }
 
     required Type type = 1;
 
     optional Open open = 2;
+    optional Close close = 3;
 }
 
 message Open {
+    required string key = 1;
+}
+
+message Close {
     required string key = 1;
 }
 

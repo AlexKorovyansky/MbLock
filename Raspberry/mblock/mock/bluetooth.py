@@ -1,4 +1,6 @@
-from Raspberry.mblock.mock import client
+from mock import client
+import logging
+log = logging.getLogger("[MOCK]BLUETOOTH")
 
 RFCOMM = 3
 PORT_ANY = 0
@@ -24,8 +26,8 @@ class BluetoothSocket:
         self.accept = self.rfcomm_accept
         self.recv = self.rfcomm_recv
         self.close = self.rfcomm_close
+        self.send = self.rfcomm_send
         # self.connect         = self.rfcomm_connect
-        # self.send            = self.rfcomm_send
         # self.setblocking     = self.rfcomm_setblocking
         # self.settimeout      = self.rfcomm_settimeout
         # self.gettimeout      = self.rfcomm_gettimeout
@@ -43,7 +45,7 @@ class BluetoothSocket:
             raise ValueError("Widcomm stack can't bind to user-specified adapter")
 
         self.bound = True
-        print "***MOCK:BLUETOOTH*** Bound to port ", port
+        log.debug("Bound to port %s", port)
 
     def rfcomm_getsockname(self):
         if not self.bound:
@@ -54,14 +56,14 @@ class BluetoothSocket:
 
     def rfcomm_listen(self, backlog):
         self.listening = True
-        print "***MOCK:BLUETOOTH*** Start listening"
+        log.debug("Start listening")
 
     def rfcomm_accept(self):
         # if self.connected:
         #     raise BluetoothError("already connected")
 
         while self.listening and not self.connected:
-            print ("***MOCK:BLUETOOTH*** Waiting for connection")
+            log.debug("Waiting for connection")
 
             client.wait_connection()
             self.connected = True
@@ -87,6 +89,9 @@ class BluetoothSocket:
             else:
                 return data
 
+    def rfcomm_send(self, data):
+        client.recv_data(data)
+
     def rfcomm_close(self):
         self.bound = False
         self.listening = False
@@ -96,7 +101,7 @@ class BluetoothSocket:
 
 def advertise_service( sock, name, service_id = "", service_classes = [], \
                        profiles = [], provider = "", description = "", protocols = []):
-    print "***MOCK:BLUETOOTH*** Advertise service started "
+    log.debug("Advertise service started")
 
 class BluetoothError (IOError):
     pass
