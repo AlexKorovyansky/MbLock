@@ -7,6 +7,7 @@ import android.os.Looper;
 import com.alexkorovyansky.mblock.app.MbLockApplication;
 import com.alexkorovyansky.mblock.app.components.ui.fragments.ControlFragment;
 import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryFragment;
+import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryNoResultsFragment;
 import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryResultsListFragment;
 import com.alexkorovyansky.mblock.model.User;
 import com.alexkorovyansky.mblock.app.components.services.MbLocksBoundService;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 import javax.inject.Singleton;
 
+import butterknife.Views;
 import dagger.Module;
 import dagger.Provides;
 
@@ -29,7 +31,8 @@ import dagger.Provides;
         injects = {
                 MbLocksBoundService.class,
                 MainActivity.class,
-                DiscoveryFragment.class, DiscoveryResultsListFragment.class, ControlFragment.class
+                DiscoveryFragment.class, DiscoveryNoResultsFragment.class,
+                DiscoveryResultsListFragment.class, ControlFragment.class
         }
 )
 public class AppModule {
@@ -37,6 +40,7 @@ public class AppModule {
     private MbLockApplication app;
 
     public AppModule(MbLockApplication app) {
+        Views.setDebug(true);
         this.app = app;
     }
 

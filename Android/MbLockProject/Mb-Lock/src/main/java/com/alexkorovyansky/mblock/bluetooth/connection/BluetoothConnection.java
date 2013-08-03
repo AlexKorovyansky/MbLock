@@ -8,6 +8,7 @@ import android.util.Log;
 import com.alexkorovyansky.mblock.app.Config;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 /**
@@ -26,6 +27,28 @@ public class BluetoothConnection implements Runnable{
         public void onDisconnected();
     }
 
+    public static class BaseListener implements Listener {
+
+        @Override
+        public void onConnected() {
+
+        }
+
+        @Override
+        public void onPacketSend(byte[] packet) {
+
+        }
+
+        @Override
+        public void onPacketReceived(byte[] packet) {
+
+        }
+
+        @Override
+        public void onDisconnected() {
+
+        }
+    }
     private String mMacAdress;
     private BluetoothSocket mBluetoothSocket;
     private ByteBuffer mBuffer;
@@ -35,6 +58,8 @@ public class BluetoothConnection implements Runnable{
     public BluetoothConnection(String macAdress, int bufferSize) {
         this.mMacAdress = macAdress;
         this.mBuffer = ByteBuffer.allocate(bufferSize);
+        this.mListener = new BaseListener();
+        this.mPacketReader = new DelimitedPacketReader("\r\n");
     }
 
     public void setPacketReader(PacketReader packetReader) {
@@ -43,6 +68,9 @@ public class BluetoothConnection implements Runnable{
 
     public void setListener(Listener listener) {
         mListener = listener;
+        if (mListener == null) {
+            mListener = new BaseListener();
+        }
     }
 
     @Override
@@ -52,19 +80,22 @@ public class BluetoothConnection implements Runnable{
         final BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(mMacAdress);
         try {
             mBluetoothSocket = remoteDevice.createInsecureRfcommSocketToServiceRecord(Config.MBLOCK_UUID);
+            mBluetoothSocket.connect();
+            final InputStream input = mBluetoothSocket.getInputStream();
             Log.v(TAG, "connection established");
             byte[] buffer = new byte[1024];
             int bytes;
 
             while (true) {
                 try {
-                    bytes = mBluetoothSocket.getInputStream().read(buffer);
+                    bytes = input.read(buffer);
                     mBuffer.mark();
                     mBuffer.put(buffer, 0, bytes);
                     mBuffer.reset();
 
                     final byte[] caughtPacket = mPacketReader.catchPacket(mBuffer);
                     if (caughtPacket != null) {
+                        Log.v(TAG, "received " + bytesToHex(caughtPacket));
                         mListener.onPacketReceived(caughtPacket);
                         mBuffer.clear();
                     } else {
@@ -88,6 +119,7 @@ public class BluetoothConnection implements Runnable{
         try {
             mBluetoothSocket.getOutputStream().write(packet);
             mBluetoothSocket.getOutputStream().flush();
+            Log.v(TAG, "sent " + bytesToHex(packet));
             mListener.onPacketSend(packet);
         } catch (IOException e) {
 
@@ -103,5 +135,18 @@ public class BluetoothConnection implements Runnable{
             }
         }
         Log.v(TAG, "disconnected");
+    }
+
+    private static String bytesToHex(byte[] bytes) {
+        final char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        final StringBuilder sb = new StringBuilder();
+        int v;
+        for (int j = 0; j < bytes.length; j++) {
+            v = bytes[j] & 0xFF;
+            sb.append(hexArray[v >>> 4]);
+            sb.append(hexArray[v & 0x0F]);
+            sb.append(" ");
+        }
+        return sb.toString().trim();
     }
 }

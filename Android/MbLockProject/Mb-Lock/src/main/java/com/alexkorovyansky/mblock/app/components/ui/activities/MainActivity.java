@@ -10,14 +10,14 @@ import android.os.IBinder;
 import com.actionbarsherlock.view.Menu;
 import com.alexkorovyansky.mblock.R;
 import com.alexkorovyansky.mblock.app.base.MbLockActivity;
-import com.alexkorovyansky.mblock.app.components.ui.fragments.ControlFragment;
-import com.alexkorovyansky.mblock.app.events.DiscoveryFinishedEvent;
-import com.alexkorovyansky.mblock.app.events.DiscoveryResultItemSelectedEvent;
-import com.alexkorovyansky.mblock.app.events.MakeDiscoveryEvent;
 import com.alexkorovyansky.mblock.app.components.services.MbLocksBoundService;
+import com.alexkorovyansky.mblock.app.components.ui.fragments.ControlFragment;
 import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryFragment;
 import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryNoResultsFragment;
 import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryResultsListFragment;
+import com.alexkorovyansky.mblock.app.events.DiscoveryFinishedEvent;
+import com.alexkorovyansky.mblock.app.events.DiscoveryResultItemSelectedEvent;
+import com.alexkorovyansky.mblock.app.events.MakeDiscoveryEvent;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -91,7 +91,8 @@ public class MainActivity extends MbLockActivity {
     public void onDiscoveryResultItemSelected(DiscoveryResultItemSelectedEvent event) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_fragment_placeholder, ControlFragment.newInstance(event.mbLock), "command")
+                .replace(R.id.main_fragment_placeholder, ControlFragment.newInstance(event.mbLock), "control")
+                .addToBackStack("control")
                 .commit();
     }
 
