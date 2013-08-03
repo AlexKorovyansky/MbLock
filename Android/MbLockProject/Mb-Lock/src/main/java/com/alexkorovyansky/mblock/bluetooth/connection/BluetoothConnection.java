@@ -5,9 +5,10 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import com.alexkorovyansky.mblock.app.Config;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.UUID;
 
 /**
  * BluetoothConnection
@@ -16,7 +17,6 @@ import java.util.UUID;
  */
 public class BluetoothConnection implements Runnable{
 
-    public static final UUID MBLOCK_UUID = UUID.randomUUID();
     private static final String TAG = BluetoothConnection.class.getSimpleName();
 
     public static interface Listener {
@@ -47,11 +47,12 @@ public class BluetoothConnection implements Runnable{
 
     @Override
     public void run() {
+        Log.v(TAG, "starting bluetooth connection with " + mMacAdress);
         final BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         final BluetoothDevice remoteDevice = bluetoothAdapter.getRemoteDevice(mMacAdress);
         try {
-            mBluetoothSocket = remoteDevice.createInsecureRfcommSocketToServiceRecord(MBLOCK_UUID);
-
+            mBluetoothSocket = remoteDevice.createInsecureRfcommSocketToServiceRecord(Config.MBLOCK_UUID);
+            Log.v(TAG, "connection established");
             byte[] buffer = new byte[1024];
             int bytes;
 
@@ -70,17 +71,17 @@ public class BluetoothConnection implements Runnable{
                         mBuffer.position(mBuffer.position() + bytes);
                     }
                 } catch (IOException e) {
-                    Log.e(TAG, "disconnected", e);
+                    Log.v(TAG, "connection while run", e);
                     break;
                 }
             }
         } catch (IOException e) {
-
+            Log.v(TAG, "connection error", e);
         }
     }
 
     public void connect() {
-
+        new Thread(this).start();
     }
 
     public void sendPacket(byte[] packet) {
@@ -94,6 +95,13 @@ public class BluetoothConnection implements Runnable{
     }
 
     public void disconnect() {
-
+        if (mBluetoothSocket != null) {
+            try {
+                mBluetoothSocket.close();
+            } catch(IOException e) {
+                Log.v(TAG, "exception while disconnect", e);
+            }
+        }
+        Log.v(TAG, "disconnected");
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+import com.alexkorovyansky.mblock.app.MbLockApplication;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
@@ -16,8 +17,7 @@ import javax.inject.Inject;
  */
 public class MbLockService extends Service {
 
-    @Inject
-    Bus bus;
+    @Inject Bus bus;
 
     @Override
     public void onCreate() {
