@@ -1,10 +1,13 @@
-package com.alexkorovyansky.mblock.app.base;
+package com.alexkorovyansky.mblock.app;
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.Service;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.alexkorovyansky.mblock.app.modules.AppModule;
-import com.alexkorovyansky.mblock.app.modules.mock.MockDiscoveryModule;
+import com.alexkorovyansky.mblock.app.modules.real.RealDiscoveryModule;
 
 import dagger.ObjectGraph;
 
@@ -25,8 +28,16 @@ public class MbLockApplication extends Application {
         MbLockApplication.logLifeCycle(this, "---onCreate---");
     }
 
-    public void inject(Object component) {
-        getObjectGraph().inject(component);
+    public static void inject(Activity activity) {
+        ((MbLockApplication)activity.getApplication()).injectInner(activity);
+    }
+
+    public static void inject(Service service) {
+        ((MbLockApplication)service.getApplication()).injectInner(service);
+    }
+
+    public static void inject(Fragment fragment) {
+        ((MbLockApplication)fragment.getActivity().getApplication()).injectInner(fragment);
     }
 
     public synchronized ObjectGraph getObjectGraph() {
@@ -41,6 +52,10 @@ public class MbLockApplication extends Application {
     }
 
     private void resetObjectGraph() {
-        mObjectGraph = ObjectGraph.create(new AppModule(this), new MockDiscoveryModule());
+        mObjectGraph = ObjectGraph.create(new AppModule(this), new RealDiscoveryModule());
+    }
+
+    private void injectInner(Object component) {
+        getObjectGraph().inject(component);
     }
 }

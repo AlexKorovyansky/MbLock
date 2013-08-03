@@ -3,6 +3,7 @@ package com.alexkorovyansky.mblock.app.base;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.alexkorovyansky.mblock.app.MbLockApplication;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
@@ -14,8 +15,7 @@ import javax.inject.Inject;
  */
 public class MbLockActivity extends SherlockFragmentActivity {
 
-    @Inject
-    Bus bus;
+    @Inject Bus bus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

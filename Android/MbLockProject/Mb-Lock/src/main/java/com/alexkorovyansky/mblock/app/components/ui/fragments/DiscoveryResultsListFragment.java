@@ -2,9 +2,12 @@ package com.alexkorovyansky.mblock.app.components.ui.fragments;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.alexkorovyansky.mblock.app.base.MbLockListFragment;
+import com.alexkorovyansky.mblock.app.events.DiscoveryResultItemSelectedEvent;
 import com.alexkorovyansky.mblock.model.MbLock;
 
 import java.util.ArrayList;
@@ -38,8 +41,13 @@ public class DiscoveryResultsListFragment extends MbLockListFragment{
         super.onActivityCreated(savedInstanceState);
         final ArrayAdapter<MbLock> adapter = new ArrayAdapter<MbLock>(getActivity(),
                 android.R.layout.simple_list_item_1, mItems);
-
         setListAdapter(adapter);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        postToBus(new DiscoveryResultItemSelectedEvent((MbLock)getListAdapter().getItem(position)));
     }
 
     @Override

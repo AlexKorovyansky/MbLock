@@ -8,7 +8,7 @@ import android.os.Parcelable;
  *
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
-public class MbLock implements Parcelable{
+public class MbLock implements Parcelable {
     public String name;
     public String macAddress;
 

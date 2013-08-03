@@ -10,7 +10,9 @@ import android.os.IBinder;
 import com.actionbarsherlock.view.Menu;
 import com.alexkorovyansky.mblock.R;
 import com.alexkorovyansky.mblock.app.base.MbLockActivity;
+import com.alexkorovyansky.mblock.app.components.ui.fragments.ControlFragment;
 import com.alexkorovyansky.mblock.app.events.DiscoveryFinishedEvent;
+import com.alexkorovyansky.mblock.app.events.DiscoveryResultItemSelectedEvent;
 import com.alexkorovyansky.mblock.app.events.MakeDiscoveryEvent;
 import com.alexkorovyansky.mblock.app.components.services.MbLocksBoundService;
 import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryFragment;
@@ -68,6 +70,7 @@ public class MainActivity extends MbLockActivity {
         unbindService(mServiceConnection);
     }
 
+    @SuppressWarnings("unused") //Used by bus
     @Subscribe
     public void discoveryFinished(DiscoveryFinishedEvent discoveryFinishedEvent){
         if (discoveryFinishedEvent.discoveredMbLocks.size() == 0 ) {
@@ -81,6 +84,15 @@ public class MainActivity extends MbLockActivity {
                     .replace(R.id.main_fragment_placeholder, DiscoveryResultsListFragment.newInstance(discoveryFinishedEvent.discoveredMbLocks), "results")
                     .commit();
         }
+    }
+
+    @SuppressWarnings("unused") //Used by bus
+    @Subscribe
+    public void onDiscoveryResultItemSelected(DiscoveryResultItemSelectedEvent event) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_fragment_placeholder, ControlFragment.newInstance(event.mbLock), "command")
+                .commit();
     }
 
 }

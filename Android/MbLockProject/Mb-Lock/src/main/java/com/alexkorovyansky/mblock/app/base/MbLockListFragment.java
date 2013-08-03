@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.alexkorovyansky.mblock.app.MbLockApplication;
+import com.squareup.otto.Bus;
+
+import javax.inject.Inject;
 
 /**
  * MbLockFragment
@@ -12,10 +16,13 @@ import com.actionbarsherlock.app.SherlockListFragment;
  */
 public class MbLockListFragment extends SherlockListFragment {
 
+    @Inject Bus bus;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         MbLockApplication.logLifeCycle(this, "onAttach to " + activity.getClass().getSimpleName());
+        MbLockApplication.inject(this);
     }
 
     @Override
@@ -34,6 +41,7 @@ public class MbLockListFragment extends SherlockListFragment {
     public void onStart() {
         super.onStart();
         MbLockApplication.logLifeCycle(this, "onStart");
+        bus.register(this);
     }
 
     @Override
@@ -52,6 +60,7 @@ public class MbLockListFragment extends SherlockListFragment {
     public void onStop() {
         super.onStop();
         MbLockApplication.logLifeCycle(this, "onStop");
+        bus.unregister(this);
     }
 
     @Override
@@ -64,5 +73,9 @@ public class MbLockListFragment extends SherlockListFragment {
     public void onDetach() {
         super.onDetach();
         MbLockApplication.logLifeCycle(this, "onDetach");
+    }
+
+    protected void postToBus(Object event) {
+        bus.post(event);
     }
 }

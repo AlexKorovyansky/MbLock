@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.alexkorovyansky.mblock.app.base.MbLockApplication;
+import com.alexkorovyansky.mblock.app.MbLockApplication;
+import com.alexkorovyansky.mblock.app.components.ui.fragments.ControlFragment;
+import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryFragment;
+import com.alexkorovyansky.mblock.app.components.ui.fragments.DiscoveryResultsListFragment;
 import com.alexkorovyansky.mblock.model.User;
 import com.alexkorovyansky.mblock.app.components.services.MbLocksBoundService;
 import com.alexkorovyansky.mblock.app.components.ui.activities.MainActivity;
@@ -23,7 +26,11 @@ import dagger.Provides;
  * @author Alex Korovyansky <korovyansk@gmail.com>
  */
 @Module(
-        injects = { MbLocksBoundService.class, MainActivity.class }
+        injects = {
+                MbLocksBoundService.class,
+                MainActivity.class,
+                DiscoveryFragment.class, DiscoveryResultsListFragment.class, ControlFragment.class
+        }
 )
 public class AppModule {
 

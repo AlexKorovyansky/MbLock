@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.os.ParcelUuid;
 import android.util.Log;
 
+import com.alexkorovyansky.mblock.app.Config;
 import com.alexkorovyansky.mblock.model.MbLock;
 import com.alexkorovyansky.mblock.services.Callback;
 import com.alexkorovyansky.mblock.services.DiscoveryService;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * BluetoothDiscoveryService
@@ -29,8 +29,6 @@ import java.util.UUID;
 public class BluetoothDiscoveryService implements DiscoveryService {
 
     public static final String TAG = BluetoothDiscoveryService.class.getSimpleName();
-
-    private UUID magicUUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
     private final BroadcastReceiver mDiscoveryReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -56,7 +54,7 @@ public class BluetoothDiscoveryService implements DiscoveryService {
                 if (device.getUuids() != null && device.getUuids().length > 0) {
                     for (ParcelUuid parcelUuid: device.getUuids()) {
                         Log.v(TAG, parcelUuid.getUuid().toString());
-                        if (magicUUID.equals(parcelUuid.getUuid())) {
+                        if (Config.MBLOCK_UUID.equals(parcelUuid.getUuid())) {
                             mDiscoveredLocks.add(new MbLock(device.getName(), device.getAddress()));
                         }
                     }
