@@ -59,7 +59,7 @@ public class BluetoothConnection implements Runnable{
         this.mMacAdress = macAdress;
         this.mBuffer = ByteBuffer.allocate(bufferSize);
         this.mListener = new BaseListener();
-        this.mPacketReader = new DelimitedPacketReader("\r\n");
+        this.mPacketReader = new ByteLengthFirstPacketReader();
     }
 
     public void setPacketReader(PacketReader packetReader) {
@@ -84,22 +84,27 @@ public class BluetoothConnection implements Runnable{
             final InputStream input = mBluetoothSocket.getInputStream();
             Log.v(TAG, "connection established");
             byte[] buffer = new byte[1024];
-            int bytes;
+            int received;
 
             while (true) {
                 try {
-                    bytes = input.read(buffer);
+                    received = input.read(buffer);
+                    Log.v(TAG, "received " + bytesToHex(buffer, received));
+
                     mBuffer.mark();
-                    mBuffer.put(buffer, 0, bytes);
+                    mBuffer.put(buffer, 0, received);
                     mBuffer.reset();
+                    mBuffer.limit(mBuffer.position() + received);
+
+                    Log.v(TAG, "total received " + mBuffer.limit());
 
                     final byte[] caughtPacket = mPacketReader.catchPacket(mBuffer);
                     if (caughtPacket != null) {
-                        Log.v(TAG, "received " + bytesToHex(caughtPacket));
+                        Log.v(TAG, "caught packet " + bytesToHex(caughtPacket));
                         mListener.onPacketReceived(caughtPacket);
                         mBuffer.clear();
                     } else {
-                        mBuffer.position(mBuffer.position() + bytes);
+                        mBuffer.position(mBuffer.position() + received);
                     }
                 } catch (IOException e) {
                     Log.v(TAG, "connection while run", e);
@@ -138,10 +143,14 @@ public class BluetoothConnection implements Runnable{
     }
 
     private static String bytesToHex(byte[] bytes) {
+        return bytesToHex(bytes, bytes.length);
+    }
+
+    private static String bytesToHex(byte[] bytes, int size) {
         final char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
         final StringBuilder sb = new StringBuilder();
         int v;
-        for (int j = 0; j < bytes.length; j++) {
+        for (int j = 0; j < size; j++) {
             v = bytes[j] & 0xFF;
             sb.append(hexArray[v >>> 4]);
             sb.append(hexArray[v & 0x0F]);
