@@ -1,6 +1,6 @@
 import bluetooth
 import threading
-import cmd_handler
+import msg_handler
 from config import server_uuid
 from config import server_name
 
@@ -42,7 +42,7 @@ class clientThread(threading.Thread):
                 log.debug("From %s received [%s]" % (self.info, recv_data))
                 if len(recv_data) == 0:
                     break
-                send_data = cmd_handler.process(recv_data)
+                send_data = msg_handler.process(recv_data)
                 log.debug("To %s sent [%s]" % (self.info, send_data))
                 self.sock.send(send_data)
         except IOError:
