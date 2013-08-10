@@ -18,7 +18,6 @@ public class ByteLengthFirstPacketReader extends PacketReader {
             return null;
         }
         if(byteBuffer.remaining() >= length){
-            byteBuffer.reset();
             final byte[] packet = new byte[length];
             byteBuffer.get(packet);
             return packet;
