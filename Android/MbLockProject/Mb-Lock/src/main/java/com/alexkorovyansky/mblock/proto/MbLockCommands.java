@@ -34,6 +34,20 @@ public final class MbLockCommands {
      * <code>optional .mblock.Open open = 2;</code>
      */
     com.alexkorovyansky.mblock.proto.MbLockCommands.OpenOrBuilder getOpenOrBuilder();
+
+    // optional .mblock.Close close = 3;
+    /**
+     * <code>optional .mblock.Close close = 3;</code>
+     */
+    boolean hasClose();
+    /**
+     * <code>optional .mblock.Close close = 3;</code>
+     */
+    com.alexkorovyansky.mblock.proto.MbLockCommands.Close getClose();
+    /**
+     * <code>optional .mblock.Close close = 3;</code>
+     */
+    com.alexkorovyansky.mblock.proto.MbLockCommands.CloseOrBuilder getCloseOrBuilder();
   }
   /**
    * Protobuf type {@code mblock.Request}
@@ -110,6 +124,19 @@ public final class MbLockCommands {
               bitField0_ |= 0x00000002;
               break;
             }
+            case 26: {
+              com.alexkorovyansky.mblock.proto.MbLockCommands.Close.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = close_.toBuilder();
+              }
+              close_ = input.readMessage(com.alexkorovyansky.mblock.proto.MbLockCommands.Close.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(close_);
+                close_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -158,12 +185,20 @@ public final class MbLockCommands {
        * <code>OPEN = 1;</code>
        */
       OPEN(0, 1),
+      /**
+       * <code>CLOSE = 2;</code>
+       */
+      CLOSE(1, 2),
       ;
 
       /**
        * <code>OPEN = 1;</code>
        */
       public static final int OPEN_VALUE = 1;
+      /**
+       * <code>CLOSE = 2;</code>
+       */
+      public static final int CLOSE_VALUE = 2;
 
 
       public final int getNumber() { return value; }
@@ -171,6 +206,7 @@ public final class MbLockCommands {
       public static Type valueOf(int value) {
         switch (value) {
           case 1: return OPEN;
+          case 2: return CLOSE;
           default: return null;
         }
       }
@@ -261,9 +297,32 @@ public final class MbLockCommands {
       return open_;
     }
 
+    // optional .mblock.Close close = 3;
+    public static final int CLOSE_FIELD_NUMBER = 3;
+    private com.alexkorovyansky.mblock.proto.MbLockCommands.Close close_;
+    /**
+     * <code>optional .mblock.Close close = 3;</code>
+     */
+    public boolean hasClose() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .mblock.Close close = 3;</code>
+     */
+    public com.alexkorovyansky.mblock.proto.MbLockCommands.Close getClose() {
+      return close_;
+    }
+    /**
+     * <code>optional .mblock.Close close = 3;</code>
+     */
+    public com.alexkorovyansky.mblock.proto.MbLockCommands.CloseOrBuilder getCloseOrBuilder() {
+      return close_;
+    }
+
     private void initFields() {
       type_ = com.alexkorovyansky.mblock.proto.MbLockCommands.Request.Type.OPEN;
       open_ = com.alexkorovyansky.mblock.proto.MbLockCommands.Open.getDefaultInstance();
+      close_ = com.alexkorovyansky.mblock.proto.MbLockCommands.Close.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -276,6 +335,12 @@ public final class MbLockCommands {
       }
       if (hasOpen()) {
         if (!getOpen().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasClose()) {
+        if (!getClose().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -293,6 +358,9 @@ public final class MbLockCommands {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeMessage(2, open_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, close_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -309,6 +377,10 @@ public final class MbLockCommands {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, open_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, close_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -419,6 +491,7 @@ public final class MbLockCommands {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getOpenFieldBuilder();
+          getCloseFieldBuilder();
         }
       }
       private static Builder create() {
@@ -435,6 +508,12 @@ public final class MbLockCommands {
           openBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (closeBuilder_ == null) {
+          close_ = com.alexkorovyansky.mblock.proto.MbLockCommands.Close.getDefaultInstance();
+        } else {
+          closeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -475,6 +554,14 @@ public final class MbLockCommands {
         } else {
           result.open_ = openBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (closeBuilder_ == null) {
+          result.close_ = close_;
+        } else {
+          result.close_ = closeBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -497,6 +584,9 @@ public final class MbLockCommands {
         if (other.hasOpen()) {
           mergeOpen(other.getOpen());
         }
+        if (other.hasClose()) {
+          mergeClose(other.getClose());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -508,6 +598,12 @@ public final class MbLockCommands {
         }
         if (hasOpen()) {
           if (!getOpen().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasClose()) {
+          if (!getClose().isInitialized()) {
             
             return false;
           }
@@ -685,6 +781,123 @@ public final class MbLockCommands {
           open_ = null;
         }
         return openBuilder_;
+      }
+
+      // optional .mblock.Close close = 3;
+      private com.alexkorovyansky.mblock.proto.MbLockCommands.Close close_ = com.alexkorovyansky.mblock.proto.MbLockCommands.Close.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.alexkorovyansky.mblock.proto.MbLockCommands.Close, com.alexkorovyansky.mblock.proto.MbLockCommands.Close.Builder, com.alexkorovyansky.mblock.proto.MbLockCommands.CloseOrBuilder> closeBuilder_;
+      /**
+       * <code>optional .mblock.Close close = 3;</code>
+       */
+      public boolean hasClose() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .mblock.Close close = 3;</code>
+       */
+      public com.alexkorovyansky.mblock.proto.MbLockCommands.Close getClose() {
+        if (closeBuilder_ == null) {
+          return close_;
+        } else {
+          return closeBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .mblock.Close close = 3;</code>
+       */
+      public Builder setClose(com.alexkorovyansky.mblock.proto.MbLockCommands.Close value) {
+        if (closeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          close_ = value;
+          onChanged();
+        } else {
+          closeBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .mblock.Close close = 3;</code>
+       */
+      public Builder setClose(
+          com.alexkorovyansky.mblock.proto.MbLockCommands.Close.Builder builderForValue) {
+        if (closeBuilder_ == null) {
+          close_ = builderForValue.build();
+          onChanged();
+        } else {
+          closeBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .mblock.Close close = 3;</code>
+       */
+      public Builder mergeClose(com.alexkorovyansky.mblock.proto.MbLockCommands.Close value) {
+        if (closeBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              close_ != com.alexkorovyansky.mblock.proto.MbLockCommands.Close.getDefaultInstance()) {
+            close_ =
+              com.alexkorovyansky.mblock.proto.MbLockCommands.Close.newBuilder(close_).mergeFrom(value).buildPartial();
+          } else {
+            close_ = value;
+          }
+          onChanged();
+        } else {
+          closeBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .mblock.Close close = 3;</code>
+       */
+      public Builder clearClose() {
+        if (closeBuilder_ == null) {
+          close_ = com.alexkorovyansky.mblock.proto.MbLockCommands.Close.getDefaultInstance();
+          onChanged();
+        } else {
+          closeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .mblock.Close close = 3;</code>
+       */
+      public com.alexkorovyansky.mblock.proto.MbLockCommands.Close.Builder getCloseBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getCloseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .mblock.Close close = 3;</code>
+       */
+      public com.alexkorovyansky.mblock.proto.MbLockCommands.CloseOrBuilder getCloseOrBuilder() {
+        if (closeBuilder_ != null) {
+          return closeBuilder_.getMessageOrBuilder();
+        } else {
+          return close_;
+        }
+      }
+      /**
+       * <code>optional .mblock.Close close = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.alexkorovyansky.mblock.proto.MbLockCommands.Close, com.alexkorovyansky.mblock.proto.MbLockCommands.Close.Builder, com.alexkorovyansky.mblock.proto.MbLockCommands.CloseOrBuilder> 
+          getCloseFieldBuilder() {
+        if (closeBuilder_ == null) {
+          closeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.alexkorovyansky.mblock.proto.MbLockCommands.Close, com.alexkorovyansky.mblock.proto.MbLockCommands.Close.Builder, com.alexkorovyansky.mblock.proto.MbLockCommands.CloseOrBuilder>(
+                  close_,
+                  getParentForChildren(),
+                  isClean());
+          close_ = null;
+        }
+        return closeBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:mblock.Request)
@@ -1175,6 +1388,485 @@ public final class MbLockCommands {
     }
 
     // @@protoc_insertion_point(class_scope:mblock.Open)
+  }
+
+  public interface CloseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string key = 1;
+    /**
+     * <code>required string key = 1;</code>
+     */
+    boolean hasKey();
+    /**
+     * <code>required string key = 1;</code>
+     */
+    java.lang.String getKey();
+    /**
+     * <code>required string key = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getKeyBytes();
+  }
+  /**
+   * Protobuf type {@code mblock.Close}
+   */
+  public static final class Close extends
+      com.google.protobuf.GeneratedMessage
+      implements CloseOrBuilder {
+    // Use Close.newBuilder() to construct.
+    private Close(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Close(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Close defaultInstance;
+    public static Close getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Close getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Close(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              key_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.alexkorovyansky.mblock.proto.MbLockCommands.internal_static_mblock_Close_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.alexkorovyansky.mblock.proto.MbLockCommands.internal_static_mblock_Close_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.alexkorovyansky.mblock.proto.MbLockCommands.Close.class, com.alexkorovyansky.mblock.proto.MbLockCommands.Close.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Close> PARSER =
+        new com.google.protobuf.AbstractParser<Close>() {
+      public Close parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Close(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Close> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string key = 1;
+    public static final int KEY_FIELD_NUMBER = 1;
+    private java.lang.Object key_;
+    /**
+     * <code>required string key = 1;</code>
+     */
+    public boolean hasKey() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string key = 1;</code>
+     */
+    public java.lang.String getKey() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          key_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string key = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getKeyBytes() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        key_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      key_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getKeyBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getKeyBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.alexkorovyansky.mblock.proto.MbLockCommands.Close parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.alexkorovyansky.mblock.proto.MbLockCommands.Close prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code mblock.Close}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.alexkorovyansky.mblock.proto.MbLockCommands.CloseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.alexkorovyansky.mblock.proto.MbLockCommands.internal_static_mblock_Close_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.alexkorovyansky.mblock.proto.MbLockCommands.internal_static_mblock_Close_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.alexkorovyansky.mblock.proto.MbLockCommands.Close.class, com.alexkorovyansky.mblock.proto.MbLockCommands.Close.Builder.class);
+      }
+
+      // Construct using com.alexkorovyansky.mblock.proto.MbLockCommands.Close.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        key_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.alexkorovyansky.mblock.proto.MbLockCommands.internal_static_mblock_Close_descriptor;
+      }
+
+      public com.alexkorovyansky.mblock.proto.MbLockCommands.Close getDefaultInstanceForType() {
+        return com.alexkorovyansky.mblock.proto.MbLockCommands.Close.getDefaultInstance();
+      }
+
+      public com.alexkorovyansky.mblock.proto.MbLockCommands.Close build() {
+        com.alexkorovyansky.mblock.proto.MbLockCommands.Close result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.alexkorovyansky.mblock.proto.MbLockCommands.Close buildPartial() {
+        com.alexkorovyansky.mblock.proto.MbLockCommands.Close result = new com.alexkorovyansky.mblock.proto.MbLockCommands.Close(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.key_ = key_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.alexkorovyansky.mblock.proto.MbLockCommands.Close) {
+          return mergeFrom((com.alexkorovyansky.mblock.proto.MbLockCommands.Close)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.alexkorovyansky.mblock.proto.MbLockCommands.Close other) {
+        if (other == com.alexkorovyansky.mblock.proto.MbLockCommands.Close.getDefaultInstance()) return this;
+        if (other.hasKey()) {
+          bitField0_ |= 0x00000001;
+          key_ = other.key_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasKey()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.alexkorovyansky.mblock.proto.MbLockCommands.Close parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.alexkorovyansky.mblock.proto.MbLockCommands.Close) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string key = 1;
+      private java.lang.Object key_ = "";
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public boolean hasKey() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public java.lang.String getKey() {
+        java.lang.Object ref = key_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          key_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getKeyBytes() {
+        java.lang.Object ref = key_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          key_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public Builder setKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        key_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public Builder clearKey() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        key_ = getDefaultInstance().getKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string key = 1;</code>
+       */
+      public Builder setKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        key_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:mblock.Close)
+    }
+
+    static {
+      defaultInstance = new Close(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:mblock.Close)
   }
 
   public interface ResponseOrBuilder
@@ -1683,6 +2375,11 @@ public final class MbLockCommands {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_mblock_Open_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_mblock_Close_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_mblock_Close_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_mblock_Response_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -1696,14 +2393,15 @@ public final class MbLockCommands {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\033proto/mblock/commands.proto\022\006mblock\"[\n" +
-      "\007Request\022\"\n\004type\030\001 \002(\0162\024.mblock.Request." +
-      "Type\022\032\n\004open\030\002 \001(\0132\014.mblock.Open\"\020\n\004Type" +
-      "\022\010\n\004OPEN\020\001\"\023\n\004Open\022\013\n\003key\030\001 \002(\t\"X\n\010Respo" +
-      "nse\022+\n\006status\030\001 \002(\0162\033.mblock.Response.St" +
-      "atusCode\"\037\n\nStatusCode\022\006\n\002OK\020\001\022\t\n\005ERROR\020" +
-      "\002B2\n com.alexkorovyansky.mblock.protoB\016M" +
-      "bLockCommands"
+      "\n\033proto/mblock/commands.proto\022\006mblock\"\204\001" +
+      "\n\007Request\022\"\n\004type\030\001 \002(\0162\024.mblock.Request" +
+      ".Type\022\032\n\004open\030\002 \001(\0132\014.mblock.Open\022\034\n\005clo" +
+      "se\030\003 \001(\0132\r.mblock.Close\"\033\n\004Type\022\010\n\004OPEN\020" +
+      "\001\022\t\n\005CLOSE\020\002\"\023\n\004Open\022\013\n\003key\030\001 \002(\t\"\024\n\005Clo" +
+      "se\022\013\n\003key\030\001 \002(\t\"X\n\010Response\022+\n\006status\030\001 " +
+      "\002(\0162\033.mblock.Response.StatusCode\"\037\n\nStat" +
+      "usCode\022\006\n\002OK\020\001\022\t\n\005ERROR\020\002B2\n com.alexkor" +
+      "ovyansky.mblock.protoB\016MbLockCommands"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1715,15 +2413,21 @@ public final class MbLockCommands {
           internal_static_mblock_Request_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_mblock_Request_descriptor,
-              new java.lang.String[] { "Type", "Open", });
+              new java.lang.String[] { "Type", "Open", "Close", });
           internal_static_mblock_Open_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_mblock_Open_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_mblock_Open_descriptor,
               new java.lang.String[] { "Key", });
-          internal_static_mblock_Response_descriptor =
+          internal_static_mblock_Close_descriptor =
             getDescriptor().getMessageTypes().get(2);
+          internal_static_mblock_Close_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_mblock_Close_descriptor,
+              new java.lang.String[] { "Key", });
+          internal_static_mblock_Response_descriptor =
+            getDescriptor().getMessageTypes().get(3);
           internal_static_mblock_Response_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_mblock_Response_descriptor,

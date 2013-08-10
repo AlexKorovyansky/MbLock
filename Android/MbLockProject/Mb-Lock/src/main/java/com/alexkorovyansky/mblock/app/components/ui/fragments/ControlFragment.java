@@ -9,7 +9,10 @@ import android.view.ViewGroup;
 import com.alexkorovyansky.mblock.R;
 import com.alexkorovyansky.mblock.app.base.MbLockFragment;
 import com.alexkorovyansky.mblock.bluetooth.connection.BluetoothConnection;
+import com.alexkorovyansky.mblock.bluetooth.connection.ByteLengthFirstPacketReader;
+import com.alexkorovyansky.mblock.bluetooth.connection.ByteLengthFirstPacketWriter;
 import com.alexkorovyansky.mblock.model.MbLock;
+import com.alexkorovyansky.mblock.proto.MbLockCommands;
 
 import butterknife.OnClick;
 import butterknife.Views;
@@ -38,7 +41,7 @@ public class ControlFragment extends MbLockFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFromArguments(savedInstanceState == null ? getArguments() : savedInstanceState);
-        mBluetoothConnection = new BluetoothConnection(mMbLock.macAddress, 2048);
+        mBluetoothConnection = new BluetoothConnection(mMbLock.macAddress, new ByteLengthFirstPacketWriter(), new ByteLengthFirstPacketReader());
         mBluetoothConnection.connect();
     }
 
@@ -72,13 +75,15 @@ public class ControlFragment extends MbLockFragment {
     @OnClick(R.id.control_open)
     public void open() {
         Log.v(TAG, "click open");
-        mBluetoothConnection.sendPacket("open\r\n".getBytes());
+        final MbLockCommands.Open open = MbLockCommands.Open.newBuilder().setKey("123").build();
+        mBluetoothConnection.sendPacket(open.toByteArray());
     }
 
     @OnClick(R.id.control_close)
     public void close() {
         Log.v(TAG, "click close");
-        mBluetoothConnection.sendPacket("close\r\n".getBytes());
+        final MbLockCommands.Close close = MbLockCommands.Close.newBuilder().setKey("456").build();
+        mBluetoothConnection.sendPacket(close.toByteArray());
     }
 
 

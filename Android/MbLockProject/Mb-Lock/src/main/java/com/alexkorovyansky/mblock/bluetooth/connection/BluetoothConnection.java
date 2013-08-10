@@ -19,6 +19,7 @@ import java.nio.ByteBuffer;
 public class BluetoothConnection implements Runnable{
 
     private static final String TAG = BluetoothConnection.class.getSimpleName();
+    private static final int DEFAULT_BUFFER_SIZE = 2048;
 
     public static interface Listener {
         public void onConnected();
@@ -49,21 +50,24 @@ public class BluetoothConnection implements Runnable{
 
         }
     }
+
     private String mMacAdress;
     private BluetoothSocket mBluetoothSocket;
     private ByteBuffer mBuffer;
     private PacketReader mPacketReader;
+    private PacketWriter mPacketWriter;
     private Listener mListener;
 
-    public BluetoothConnection(String macAdress, int bufferSize) {
+    public BluetoothConnection(String macAdress, PacketWriter packetWriter, PacketReader packetReader) {
         this.mMacAdress = macAdress;
-        this.mBuffer = ByteBuffer.allocate(bufferSize);
+        this.mBuffer = ByteBuffer.allocate(DEFAULT_BUFFER_SIZE);
         this.mListener = new BaseListener();
-        this.mPacketReader = new ByteLengthFirstPacketReader();
+        this.mPacketReader = packetReader;
+        this.mPacketWriter = packetWriter;
     }
 
-    public void setPacketReader(PacketReader packetReader) {
-        mPacketReader = packetReader;
+    public void setBufferSize(int bufferSize) {
+        this.mBuffer = ByteBuffer.allocate(bufferSize);
     }
 
     public void setListener(Listener listener) {
@@ -122,9 +126,10 @@ public class BluetoothConnection implements Runnable{
 
     public void sendPacket(byte[] packet) {
         try {
-            mBluetoothSocket.getOutputStream().write(packet);
+            final byte[] transportPacket = mPacketWriter.makePacket(packet);
+            mBluetoothSocket.getOutputStream().write(transportPacket);
             mBluetoothSocket.getOutputStream().flush();
-            Log.v(TAG, "sent " + bytesToHex(packet));
+            Log.v(TAG, "sent " + bytesToHex(transportPacket));
             mListener.onPacketSend(packet);
         } catch (IOException e) {
 
